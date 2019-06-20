@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Add Show</title>
+</head>
+
+<body>
+    <div class="container">
+        <a href="/shows" class="float-right">Go Back</a>
+        <h1>All a New Show</h1>
+
+        <form action="/process" method="POST">{% csrf_token%}
+            <div class="form-group">
+                <input type="hidden" name="show_id" value="{{ show_id }}">
+                <label for="title">Title: </label>
+                <input type="text" class="form-control" placeholder="title" name="title">
+            </div>
+            <div class="form-row">
+                    <div class="col">
+                        <label for="network">Network:</label>
+                      <input type="text" class="form-control" placeholder="network" name="network">
+                    </div>
+                    <div class="col">
+                        <label for="release_date">Release Date:</label>
+                      <input type="date" class="form-control" name="date">
+                    </div>
+                  </div>
+
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea class="form-control" id="description" name="desc" rows="3"></textarea>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary text-center" value="Add show">Create</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+
+</html>
