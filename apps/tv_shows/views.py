@@ -1,6 +1,10 @@
 from django.shortcuts import render,redirect, HttpResponse
 from .models import *
 from datetime import datetime
+from django.contrib import messages
+from .models import Shows
+
+
 #------------------------------------------------
 #root menu
 #------------------------------------------------
@@ -21,15 +25,29 @@ def add_show(request):
 #------------------------------------------------
 def process(request):
     if request.method == "POST":
-        
+        errors = Shows.objects.basic_validator(request.POST)
+    if len(errors) > 0:
+        for key, value in errors.items():
+            messages.error(request, value,extra_tags=key)
+        return redirect('/shows/new')
+
+    else:
         show = Shows.objects.create(title=request.POST["title"], network=request.POST["network"],desc=request.POST["desc"], date=request.POST["date"])
 
         id = show.id
 
-    return redirect("/shows/"+ str(id))
+    return redirect("/shows"+ str(id))
 
 def update(request):
-    if request.method== "POST":
+    errors = Shows.objects.basic_validator(request.POST)
+    if len(errors) > 0:
+        for key, value in errors.items():
+            messages.error(request, value, extra_tags=key)
+        show_id = request.POST["show_id"]
+        id = show_id
+        return redirect('/shows/edit/'+str(id))
+
+    else:
         show_id = request.POST["show_id"]
         show = Shows.objects.get(id=show_id)
         show.title = request.POST["title"]
